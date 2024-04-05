@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 export default class EventModal extends Component {
   constructor(props) {
@@ -98,6 +99,9 @@ export default class EventModal extends Component {
           {recurringElement}
           {recurrenceStart}
           {recurrenceEnd}
+          <Button type="submit" onClick={this.deleteEvent}>Edit Event Details</Button>
+          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>
+          
         </Modal.Body>
       </Modal>
     );
