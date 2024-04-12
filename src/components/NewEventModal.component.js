@@ -21,6 +21,7 @@ export default class NewEventModal extends Component {
       timeOut       : (moment().hour() * 3600) + (5 * 60),
       description   : "",
       recurringDays : [],
+      color         : "#3B3B3B",
       submitted: true
     };
     this.processNewEvent = this.processNewEvent.bind(this);
@@ -82,6 +83,10 @@ export default class NewEventModal extends Component {
     this.setState({recurringDays: e});
   }
 
+  handleColorChange = (e) => {
+    this.setState({ color: e.target.value });
+  }
+
   render() {
     return (
       <Modal show={this.props.isOpen} onHide={this.props.close}>
@@ -101,6 +106,11 @@ export default class NewEventModal extends Component {
             <Label>Title:</Label>
             <FormControl placeholder="Your event title here..." onChange={(evt)=>{this.setState({title: evt.target.value})}}/>
           </FormGroup>
+
+          <FormGroup controlId="eventColor">
+              <Label>Color</Label>
+              <FormControl type="color" value={this.state.color} onChange={this.handleColorChange} />
+            </FormGroup>
 
           <FormGroup>
             <Label>Description:</Label>
