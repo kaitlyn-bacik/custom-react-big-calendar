@@ -133,12 +133,18 @@ export default class Calendar extends Component {
     this.close();
   }
 
+
+  //Does not work yet
   deleteEvent = (id) => {
     for(var evt of this.state.events) {
       if(evt["id"] === id) {
+        
+	    	console.log("trying to delete");
+        evt["id"].remove();
       
       }
     }
+  
   }
 
   close = () => {

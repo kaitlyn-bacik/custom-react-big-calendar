@@ -2,12 +2,27 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
+<<<<<<< Updated upstream
+=======
+import { Button } from 'react-bootstrap';
+// import deleteEvent from 'src\App.js'
+
+>>>>>>> Stashed changes
 
 export default class EventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
     };
+  }
+
+
+  //Does not work yet
+  deleteEvent = (id) => {
+    
+    var event = this.props.evt;
+     event.remove();
+  
   }
 
   render() {
