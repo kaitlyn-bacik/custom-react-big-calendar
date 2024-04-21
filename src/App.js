@@ -70,6 +70,7 @@ export default class Calendar extends Component {
     }
     evt["recurringDays"] = recurringDayValues;
     evt["color"] = evt.color; // Add the 'color' property to the event object
+    evt["col"] = evt.color;
     if(evt["type"] === "BI") {
       let startDate = moment(evt["start"]);
       let startDateDay = startDate.day();
