@@ -21,7 +21,7 @@ export default class NewEventModal extends Component {
       timeOut       : (moment().hour() * 3600) + (5 * 60),
       description   : "",
       recurringDays : [],
-      color         : "#3B3B3B",
+      color         : "",
       submitted: true
     };
     this.processNewEvent = this.processNewEvent.bind(this);
@@ -30,13 +30,13 @@ export default class NewEventModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if(newProps.isOpen && !this.props.isOpen && this.state.submitted) {
-      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", recurringDays: [], submitted: false});
+      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", recurringDays: [], color: "#3B3B3B", submitted: false});
     }
   }
 
   processNewEvent() {
     if(this.state.title !== "" && this.state.description !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
-      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, type: this.state.type};
+      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, color: this.state.color, desc: this.state.description, type: this.state.type};
       this.setState({submitted: true});
       this.props.addEvent(evt);
     }
@@ -107,9 +107,9 @@ export default class NewEventModal extends Component {
             <FormControl placeholder="Your event title here..." onChange={(evt)=>{this.setState({title: evt.target.value})}}/>
           </FormGroup>
 
-          <FormGroup controlId="eventColor">
-              <Label>Color</Label>
-              <FormControl type="color" value={this.state.color} onChange={this.handleColorChange} />
+          <FormGroup>
+              <Label>Color:</Label>
+              <FormControl type="color" placeholder="Your event color here..." onChange={(evt)=>{this.setState({color: evt.target.value})}} />
             </FormGroup>
 
           <FormGroup>
@@ -158,12 +158,14 @@ export default class NewEventModal extends Component {
 NewEventModal.defaultProps = {
   isOpen: false,
   toggleModal : null,
-  addEvent: null
+  addEvent: null,
+  defaultColor: "#3B3B3B"
 };
 
 NewEventModal.propTypes = {
   isOpen: PropTypes.bool,
   toggleModal: PropTypes.func,
-  addEvent: PropTypes.func
+  addEvent: PropTypes.func,
+  defaultColor: PropTypes.string
 };
 
