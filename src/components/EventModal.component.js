@@ -21,6 +21,7 @@ export default class EventModal extends Component {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var recurringDays = [];
     var col = "";
+    var category = "";
     if(this.props.evt != null) {
       title = this.props.evt.title;
       desc = this.props.evt.desc;
@@ -31,6 +32,7 @@ export default class EventModal extends Component {
       var startHours = Math.floor(this.props.evt.startTime/3600);
       var startMinutes = this.props.evt.startTime;
       col = this.props.evt.col;
+      category = this.props.evt.category;
       if(startHours !== 0) {
         startMinutes = startMinutes % (3600 * startHours)/60;
       }
@@ -98,6 +100,7 @@ export default class EventModal extends Component {
           <p>End Date: {endDate.toString()}</p>
           <p>Start Time: {startTime}</p>
           <p>End Time: {endTime}</p>
+          <p>Category: {category}</p>
           <p>Color: {col}</p>
           {recurringElement}
           {recurrenceStart}

@@ -22,6 +22,7 @@ export default class NewEventModal extends Component {
       description   : "",
       recurringDays : [],
       color         : "",
+      category      : "other",
       submitted: true
     };
     this.processNewEvent = this.processNewEvent.bind(this);
@@ -36,7 +37,7 @@ export default class NewEventModal extends Component {
 
   processNewEvent() {
     if(this.state.title !== "" && this.state.description !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
-      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, color: this.state.color, desc: this.state.description, type: this.state.type};
+      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, color: this.state.color, category: this.state.category, desc: this.state.description, type: this.state.type};
       this.setState({submitted: true});
       this.props.addEvent(evt);
     }
@@ -79,6 +80,10 @@ export default class NewEventModal extends Component {
     this.setState({type: e.target.value, date: moment(), end_date: moment()});
   }
 
+  handleCategory = (e) => {
+    this.setState({category: e.target.value});
+  }
+
   handleDaySelectChange = (e) => {
     this.setState({recurringDays: e});
   }
@@ -108,9 +113,20 @@ export default class NewEventModal extends Component {
           </FormGroup>
 
           <FormGroup>
+            <Label>Category:</Label>
+            <FormControl componentClass="select" value={this.state.category} onChange={this.handleCategory}>
+              <option value="school">school</option>
+              <option value="personal">personal</option>
+              <option value="other">other</option>
+            </FormControl>
+          </FormGroup>
+
+          { this.state.category === "other" &&
+          <FormGroup>
               <Label>Color:</Label>
               <FormControl type="color" placeholder="Your event color here..." onChange={(evt)=>{this.setState({color: evt.target.value})}} />
             </FormGroup>
+          }
 
           <FormGroup>
             <Label>Description:</Label>
