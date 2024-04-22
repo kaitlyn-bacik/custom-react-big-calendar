@@ -16,6 +16,7 @@ export default class EventModal extends Component {
     var desc = "";
     var startDate = "";
     var endDate = "";
+    var location = "";
     var startTime = "";
     var endTime = "";
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -23,6 +24,7 @@ export default class EventModal extends Component {
     if(this.props.evt != null) {
       title = this.props.evt.title;
       desc = this.props.evt.desc;
+      location = this.props.evt.location;
       var dateEndIndex = this.props.evt.start.toString().indexOf(":") - 3;
       startDate = this.props.evt.start.toString().substring(0, dateEndIndex);
       dateEndIndex = this.props.evt.end.toString().indexOf(":") - 3;
@@ -92,6 +94,7 @@ export default class EventModal extends Component {
         <Modal.Header closeButton>{title}</Modal.Header>
         <Modal.Body>
           <p>Description: {desc}</p>
+          <p>Location: {location}</p>
           <p>Start Date: {startDate.toString()}</p>
           <p>End Date: {endDate.toString()}</p>
           <p>Start Time: {startTime}</p>
@@ -100,8 +103,7 @@ export default class EventModal extends Component {
           {recurrenceStart}
           {recurrenceEnd}
           <Button type="submit" onClick={this.deleteEvent}>Edit Event Details</Button>
-          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>
-          
+          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>       
         </Modal.Body>
       </Modal>
     );

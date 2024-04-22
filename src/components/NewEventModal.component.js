@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, FormControl, FormGroup, Label} from 'react-bootstrap';
+import LocationPicker from 'react-location-picker'
 import DatePicker from 'react-16-bootstrap-date-picker';
 import TimePicker from 'react-bootstrap-time-picker';
 import Select from 'react-select';
@@ -16,6 +17,7 @@ export default class NewEventModal extends Component {
       title         : "",
       date          : moment(),
       end_date      : moment(),
+      location      : "",
       type          : "Single",
       timeIn        : (moment().hour() * 3600),
       timeOut       : (moment().hour() * 3600) + (5 * 60),
@@ -29,13 +31,13 @@ export default class NewEventModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if(newProps.isOpen && !this.props.isOpen && this.state.submitted) {
-      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", recurringDays: [], submitted: false});
+      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", location: "", recurringDays: [], submitted: false});
     }
   }
 
   processNewEvent() {
-    if(this.state.title !== "" && this.state.description !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
-      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, type: this.state.type};
+    if(this.state.title !== "" && this.state.description !== "" && this.state.location !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
+      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, location: this.state.location, type: this.state.type};
       this.setState({submitted: true});
       this.props.addEvent(evt);
     }
@@ -43,6 +45,9 @@ export default class NewEventModal extends Component {
       
     }
     if(this.state.description === "") {
+
+    }
+    if(this.state.location === ""){
 
     }
     if(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI")) {
@@ -68,6 +73,7 @@ export default class NewEventModal extends Component {
       this.setState({end_date: moment(e)});
     }
   }
+
 
   handleType = (e) => {
     if(this.state.type === "Single" && e.target.value !== "Single") {
@@ -121,6 +127,10 @@ export default class NewEventModal extends Component {
             </FormGroup>
           }
 
+          <FormGroup>
+            <Label> Location:</Label>
+            <FormControl placeholder="Location" onChange={(evt)=>{this.setState({location: evt.target.value})}}></FormControl>
+          </FormGroup>
           <FormGroup>
             <Label>Starting Time: </Label>
 						<TimePicker value={this.state.timeIn} onChange={this.timeIn} step={5} start={'07:00 AM'} />
