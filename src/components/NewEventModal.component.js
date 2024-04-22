@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, FormControl, FormGroup, Label} from 'react-bootstrap';
-import LocationPicker from 'react-location-picker'
 import DatePicker from 'react-16-bootstrap-date-picker';
 import TimePicker from 'react-bootstrap-time-picker';
 import Select from 'react-select';
@@ -23,6 +22,8 @@ export default class NewEventModal extends Component {
       timeOut       : (moment().hour() * 3600) + (5 * 60),
       description   : "",
       recurringDays : [],
+      color         : "",
+      category      : "other",
       submitted: true
     };
     this.processNewEvent = this.processNewEvent.bind(this);
@@ -31,13 +32,13 @@ export default class NewEventModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if(newProps.isOpen && !this.props.isOpen && this.state.submitted) {
-      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", location: "", recurringDays: [], submitted: false});
+      this.setState({title: "", date: moment(), end_date: moment(), type: "Single", timeIn: (moment().hour() * 3600), timeOut: (moment().hour() * 3600) + (5 * 60), description: "", location: "", recurringDays: [], color: "#3B3B3B", submitted: false});
     }
   }
 
   processNewEvent() {
     if(this.state.title !== "" && this.state.description !== "" && this.state.location !== "" && !(this.state.recurringDays.length === 0 && (this.state.type === "Week" || this.state.type === "BI"))) {
-      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, desc: this.state.description, location: this.state.location, type: this.state.type};
+      var evt = {id: -1, title: this.state.title, start: this.state.date.toDate(), end: this.state.end_date.toDate(), startTime: this.state.timeIn, endTime: this.state.timeOut, recurringDays: this.state.recurringDays, color: this.state.color, category: this.state.category, desc: this.state.description, location: this.state.location, type: this.state.type};
       this.setState({submitted: true});
       this.props.addEvent(evt);
     }
@@ -84,8 +85,16 @@ export default class NewEventModal extends Component {
     this.setState({type: e.target.value, date: moment(), end_date: moment()});
   }
 
+  handleCategory = (e) => {
+    this.setState({category: e.target.value});
+  }
+
   handleDaySelectChange = (e) => {
     this.setState({recurringDays: e});
+  }
+
+  handleColorChange = (e) => {
+    this.setState({ color: e.target.value });
   }
 
   render() {
@@ -107,6 +116,22 @@ export default class NewEventModal extends Component {
             <Label>Title:</Label>
             <FormControl placeholder="Your event title here..." onChange={(evt)=>{this.setState({title: evt.target.value})}}/>
           </FormGroup>
+
+          <FormGroup>
+            <Label>Category:</Label>
+            <FormControl componentClass="select" value={this.state.category} onChange={this.handleCategory}>
+              <option value="school">school</option>
+              <option value="personal">personal</option>
+              <option value="other">other</option>
+            </FormControl>
+          </FormGroup>
+
+          { this.state.category === "other" &&
+          <FormGroup>
+              <Label>Color:</Label>
+              <FormControl type="color" placeholder="Your event color here..." onChange={(evt)=>{this.setState({color: evt.target.value})}} />
+            </FormGroup>
+          }
 
           <FormGroup>
             <Label>Description:</Label>
@@ -158,12 +183,14 @@ export default class NewEventModal extends Component {
 NewEventModal.defaultProps = {
   isOpen: false,
   toggleModal : null,
-  addEvent: null
+  addEvent: null,
+  defaultColor: "#3B3B3B"
 };
 
 NewEventModal.propTypes = {
   isOpen: PropTypes.bool,
   toggleModal: PropTypes.func,
-  addEvent: PropTypes.func
+  addEvent: PropTypes.func,
+  defaultColor: PropTypes.string
 };
 
