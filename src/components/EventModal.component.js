@@ -2,12 +2,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
-<<<<<<< Updated upstream
-=======
 import { Button } from 'react-bootstrap';
 // import deleteEvent from 'src\App.js'
 
->>>>>>> Stashed changes
 
 export default class EventModal extends Component {
   constructor(props) {
