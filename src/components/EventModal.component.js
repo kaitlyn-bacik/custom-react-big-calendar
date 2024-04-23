@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-// import deleteEvent from 'src\App.js'
 
 
 export default class EventModal extends Component {
@@ -27,19 +26,25 @@ export default class EventModal extends Component {
     var desc = "";
     var startDate = "";
     var endDate = "";
+    var location = "";
     var startTime = "";
     var endTime = "";
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var recurringDays = [];
+    var col = "";
+    var category = "";
     if(this.props.evt != null) {
       title = this.props.evt.title;
       desc = this.props.evt.desc;
+      location = this.props.evt.location;
       var dateEndIndex = this.props.evt.start.toString().indexOf(":") - 3;
       startDate = this.props.evt.start.toString().substring(0, dateEndIndex);
       dateEndIndex = this.props.evt.end.toString().indexOf(":") - 3;
       endDate = this.props.evt.end.toString().substring(0, dateEndIndex); 
       var startHours = Math.floor(this.props.evt.startTime/3600);
       var startMinutes = this.props.evt.startTime;
+      col = this.props.evt.col;
+      category = this.props.evt.category;
       if(startHours !== 0) {
         startMinutes = startMinutes % (3600 * startHours)/60;
       }
@@ -103,15 +108,19 @@ export default class EventModal extends Component {
         <Modal.Header closeButton>{title}</Modal.Header>
         <Modal.Body>
           <p>Description: {desc}</p>
+          <p>Location: {location}</p>
           <p>Start Date: {startDate.toString()}</p>
           <p>End Date: {endDate.toString()}</p>
           <p>Start Time: {startTime}</p>
           <p>End Time: {endTime}</p>
+          <p>Category: {category}</p>
+          <p>Color: {col}</p>
           {recurringElement}
           {recurrenceStart}
           {recurrenceEnd}
           <Button type="submit" onClick={this.deleteEvent}>Edit Event Details</Button>
           <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>
+
         </Modal.Body>
       </Modal>
     );
