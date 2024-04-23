@@ -4,11 +4,21 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
+
 export default class EventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
     };
+  }
+
+
+  //Does not work yet
+  deleteEvent = (id) => {
+    
+    var event = this.props.evt;
+     event.remove();
+  
   }
 
   render() {
@@ -109,7 +119,8 @@ export default class EventModal extends Component {
           {recurrenceStart}
           {recurrenceEnd}
           <Button type="submit" onClick={this.deleteEvent}>Edit Event Details</Button>
-          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>       
+          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>
+
         </Modal.Body>
       </Modal>
     );
