@@ -14,11 +14,26 @@ export default class EventModal extends Component {
 
 
   //Does not work yet
-  deleteEvent = (id) => {
+  //this function processes the delete when delete is called by the button
+  ProcessdeleteEvent = () => {
+    console.log("Delete called")
+    var evt = {id: -1};
+
+    this.setState({submitted: true});
     
-    var event = this.props.evt;
-     event.remove();
+      
+      //call delete event for the prop then close the modal
+      this.props.deleteEvent(evt);
+      this.props.close();
   
+   
+  }
+
+
+  //Does not work yet
+  editEvent = () =>
+{
+  console.log("edit event")
   }
 
   render() {
@@ -118,9 +133,8 @@ export default class EventModal extends Component {
           {recurringElement}
           {recurrenceStart}
           {recurrenceEnd}
-          <Button type="submit" onClick={this.deleteEvent}>Edit Event Details</Button>
-          <Button type="submit" onClick={this.deleteEvent}>Delete Event</Button>
-
+          <Button type="submit" onClick={this.editEvent}>Edit Event Details</Button>
+          <Button type="submit" onClick={this.ProcessdeleteEvent}>Delete Event</Button>
         </Modal.Body>
       </Modal>
     );
@@ -130,12 +144,15 @@ export default class EventModal extends Component {
 EventModal.defaultProps = {
   isOpen: false,
   toggleModal : null,
-  evt: null
+  evt: null,
+  deleteEvent: null
 };
 
 EventModal.propTypes = {
   isOpen: PropTypes.bool,
   toggleModal: PropTypes.func,
-  evt: PropTypes.object
+  evt: PropTypes.object,
+  deleteEvent: PropTypes.func
+
 };
 
