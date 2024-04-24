@@ -162,7 +162,7 @@ export default class Calendar extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Calendar Test</h1>
+        <h1>Calendar</h1>
         <div id="calendarDiv">
           <NCalendar events={this.state.events} onSelectEvent={(evt) => {this.toggleModal(evt)}}/>
         </div>
